@@ -133,6 +133,7 @@
     <ClInclude Include="header.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="bookList.csv" />
     <None Include="credentialsAdmins.csv" />
     <None Include="credentialsClerks.csv" />
     <None Include="credentialsMembers.csv" />

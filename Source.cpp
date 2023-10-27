@@ -10,9 +10,8 @@ void menuSetupForClerks() {
 	std::cout << "\t\t\t\t\tLibrary Management System";
 	std::cout << std::endl << "\t1.View Book List";
 	std::cout << std::endl << "\t2.Add Book";
-	std::cout << std::endl << "\t3.Modify Book Entry";
-	std::cout << std::endl << "\t4.Delete Book Entry";
-	std::cout << std::endl << "\t5. Quit";
+	//std::cout << std::endl << "\t3.Delete Book Entry";
+	std::cout << std::endl << "\t3. Quit";
 	std::cout << std::endl << "\t-> ";
 }
 
@@ -305,11 +304,125 @@ void deleteAdminAccount(Admin user) {
 	originalFile.close();
 }
 
+void enterNewBook(Book item) {
+	system("cls");
+	std::ifstream bookFile("bookList.csv");
+	std::ofstream bookOutput("bookList.csv", std::ios::app);
+
+	std::cout << "\t\t\t\t\tEnter New Book";
+	std::cout << std::endl << std::endl << "Name of the Book: ";
+	item.setTitle();
+	bookOutput << std::endl << item.getTitle() << std::endl;
+	std::cout << std::endl << "Name of the Author: ";
+	item.setAuthor();
+	bookOutput << item.getAuthor();
+
+	bookFile.close();
+	bookOutput.close();
+}
+
+
+//uncompleted function
+void deleteBookEntry(Book item) {
+	std::ifstream fileRead("bookList.csv");
+	std::ofstream fileNew("tempFile.csv");
+	std::string word;
+
+	system("cls");
+	std::cout << "\t\tType the Name of the Book you wish to delete: ";
+	item.setTitle();
+
+	while (getline(fileRead, word)) {
+		if (word.compare(item.getTitle()) == 0) {
+			getline(fileRead, word);
+			//fileRead.get(word);
+		}
+		else
+		{
+			//std::cout << word << std::endl;
+			fileNew << word << std::endl;
+			/*getline(fileRead, word);
+			fileNew << word;*/
+		}
+	}
+
+	fileRead.close();
+	fileNew.close();
+
+	std::ifstream newFile("tempFile.csv");
+	std::ofstream originalFile("bookList.csv");
+	while (newFile >> word) {
+		originalFile << word << std::endl;
+		getline(newFile, word);
+		originalFile << word;
+	}
+
+	newFile.close();
+	originalFile.close();
+	_getch();
+}
+
+void viewBookList() {
+	system("cls");
+	std::ifstream bookFile("bookList.csv");
+	std::string title, word;
+
+	std::cout << std::endl << "\t\t\t\t\tList of Books Available";
+	std::cout << std::endl;
+	std::cout << std::endl << "\t\tName of the book / Author of the book:";
+	std::cout << std::endl;
+	while (!bookFile.eof())
+	{
+		getline(bookFile, title);
+		getline(bookFile, word);
+		std::cout << std::endl << "\t\t" << title << " / " << word;
+
+	}
+	//bookFile >> title >> word;
+	//std::cout << title << " \ " << word << std::endl;
+
+	bookFile.close();
+	_getch();
+}
+
+void searchBook() {
+	system("cls");
+	std::ifstream bookFile("bookList.csv");
+	std::string title, author, search;
+	int ok = 0;
+
+	std::cout << std::endl << "\t\t\t\t\tSearch for a Book";
+	std::cout << std::endl << std::endl << "\t\tName of the book / Author of the book:";
+	std::cout << std::endl << std::endl << "\t\tSearch: ";
+	std::cin >> search;
+	std::cout << std::endl;
+	while (!bookFile.eof())
+	{
+		getline(bookFile, title);
+		getline(bookFile, author);
+		if (search == title)
+		{
+			std::cout << std::endl << "\t\t" << title << " / " << author;
+			ok == 1;
+		}
+	}
+
+	if (ok == 0)
+	{
+		std::cout << std::endl << "\t\tBook not found!";
+	}
+	//bookFile >> title >> word;
+	//std::cout << title << " \ " << word << std::endl;
+
+	bookFile.close();
+	_getch();
+}
 
 //MAIN FUNCTION !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 int main() {
 	system("color 70");
 	std::string firstName, lastName, username, password;
+	Book bookItem;
 	int department = 0, menuFunction;
 	bool isCredentialsCorrect = false;
 
@@ -332,20 +445,16 @@ int main() {
 			std::cin >> menuFunction;
 			switch (menuFunction) {
 			case 1:
-				//viewBookList();
+				viewBookList();
 				break;
 			case 2:
-				//addBookEntry();
+				searchBook();
 				break;
 			case 3:
-				//modifyBookEntry();
-				break;
-			case 4:
-				//deleteBookEntry();
-				break;
-			case 5:
 				break;
 			}
+		if (menuFunction == 3)
+			break;
 		}
 	} else if(selection == 2) {
 		Clerk clerkAccount(firstName, lastName, department);
@@ -365,14 +474,20 @@ int main() {
 			std::cin >> menuFunction;
 			switch (menuFunction) {
 			case 1:
-				//viewBookList();
+				viewBookList();
 				break;
 			case 2:
-				//serachBook();
+				enterNewBook(bookItem);
 				break;
 			case 3:
+				//deleteBookEntry(bookItem);
+				break;
+			case 4:
+				//deleteBookEntry();
 				break;
 			}
+		if (menuFunction == 3)
+			break;
 		}
 	}
 	else if (selection == 3) {

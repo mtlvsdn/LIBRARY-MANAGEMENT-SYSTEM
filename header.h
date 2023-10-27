@@ -313,8 +313,29 @@ public:
 
 class Book {
 private:
-	std::string name = "";
+	std::string title = "";
 	std::string author = "";
-	int* aisle = nullptr;
-	char lastDateBooked[11] = "";
+	/*int* aisle = nullptr;
+	char lastDateBooked[11] = "";*/
+
+public:
+	void setTitle() {
+		std::string newTitle;
+		std::cin >> newTitle;
+		this->title = newTitle;
+	}
+
+	void setAuthor() {
+		std::string newAuthor;
+		std::cin >> newAuthor;
+		this->author = newAuthor;
+	}
+	
+	std::string getTitle() {
+		return this->title;
+	}
+
+	std::string getAuthor() {
+		return this->author;
+	}
 };

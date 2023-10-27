@@ -29,5 +29,6 @@
     <None Include="credentialsClerks.csv" />
     <None Include="credentialsAdmins.csv" />
     <None Include="tempFile.csv" />
+    <None Include="bookList.csv" />
   </ItemGroup>
 </Project>
